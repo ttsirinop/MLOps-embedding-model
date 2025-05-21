@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: embedding-app-deployment
+spec:
+  replicas: 2 # Start with 2 replicas for availability
+  selector:
+    matchLabels:
+      app: embedding-app
+  template:
+    metadata:
+      labels:
+        app: embedding-app
+    spec:
+      containers:
+        - name: embedding-app-container
+          image: <your-aws-account-id>.dkr.ecr.<your-aws-region>.amazonaws.com/embedding-app-repo:latest
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: 250m # Request 1/4 of a CPU core
+              memory: 512Mi # Request 512 MB of memory
+            limits:
+              cpu: 500m # Limit to 1/2 of a CPU core
+              memory: 1Gi # Limit to 1 GB of memory
